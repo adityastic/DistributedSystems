@@ -5,7 +5,7 @@ import java.util.*;
 public enum BookDao {
 	INSTANCE;
 	
-	private Map<Integer, Book> booksMap = new HashMap<Integer, Book>();
+	private List<Book> booksList = new ArrayList<Book>();
 	
 	private BookDao() {
 //		for(int i = 1; i < 1000; i++) {
@@ -24,7 +24,7 @@ public enum BookDao {
 		book1.setAuthor("Bill Burke");
 		book1.setYear(2009);
 		
-		booksMap.put(1, book1);
+		booksList.add(book1);
 		
 		Book book2 = new Book();
 		book2.setId(2);
@@ -32,16 +32,30 @@ public enum BookDao {
 		book2.setAuthor("David A. Chappell, Richard Monson-Haefel");
 		book2.setYear(2000);
 		
-		booksMap.put(2, book2);
+		booksList.add(book2);
 	}
 	
 	public List<Book> getBooks() {
-		List<Book> books = new ArrayList<Book>();
-		books.addAll(booksMap.values());
-		return books;
+		return booksList;
 	}
 	
 	public Book getBook(int id) {
-		return booksMap.get(id);
+		for (Book book : booksList) {
+			if(book.getId() == id)
+				return book;
+		}
+		return null;
+	}
+
+	public void create(Book book) {
+		booksList.add(book);
+	}
+
+	public void delete(int id) {
+		Iterator<Book> iter = booksList.iterator();
+		while(iter.hasNext()) {
+			if(iter.next().getId() == id)
+				iter.remove();
+		}
 	}
 }
